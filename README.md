@@ -12,7 +12,7 @@
 | [Paper](packages/releases/ada.theme-paper-1.1.0.ada-plugin) | Warm light theme | Desktop app |
 | [Counter](packages/releases/example.counter-1.1.0.ada-plugin) | Working example | Ada server |
 
-Use experimental Ada 0.16.5 for catalog installation. Google and Discord also ship with Ada.
+Use experimental Ada 0.16.6 for catalog installation. Google and Discord also ship with Ada.
 
 ## Install in Ada
 
@@ -26,6 +26,6 @@ Choose where to install the package. For a theme, select **Use theme**. Other pl
 
 Connect accounts in the plugin's **Settings**. Updating a compiled connection view may require Ada to prepare a checked build.
 
-Available updates appear in **Recovery**. You choose when to download and apply them.
+Available updates appear in **Recovery**. **Update all** downloads plugin updates for one review before you apply them.
 
 [Create a plugin](DEVELOPMENT.md) | [Plugin guide](https://github.com/zF4ke/ada/blob/master/docs/guide/plugins.md)
