@@ -1,0 +1,38 @@
+{
+  "format": 1,
+  "id": "example.counter",
+  "name": "Counter example",
+  "author": "Ada contributors",
+  "description": "A local counter with a sandboxed Settings view and a read-only task tool.",
+  "version": "1.1.0",
+  "license": "UNLICENSED",
+  "engines": { "ada": ">=0.15.11", "pluginApi": "^1.0.0" },
+  "hosts": ["server"],
+  "entries": { "server": "server.mjs" },
+  "dependencies": {},
+  "conflicts": [],
+  "after": [],
+  "grants": ["state.read", "state.write"],
+  "state": [{ "slot": "counter", "schemaId": "example.counter:counter/1", "schema": { "type": "object", "properties": { "count": { "type": "integer", "minimum": 0 } }, "required": ["count"], "additionalProperties": false } }],
+  "files": [],
+  "contributes": {
+    "tools": [{
+      "id": "read_counter",
+      "description": "Read the counter saved by the owner in this plugin's Settings view.",
+      "input": { "type": "object", "properties": {}, "additionalProperties": false },
+      "family": { "id": "counter", "description": "Read the example plugin counter." },
+      "grants": ["state.read"],
+      "resources": [{ "key": "plugin/example.counter/counter", "mode": "read" }],
+      "handler": "state",
+      "standalone": true,
+      "effect": "read",
+      "retry": "safe",
+      "progressLabel": "Reading the example counter"
+    }],
+    "actions": [
+      { "id": "state", "input": { "type": "object", "properties": {}, "additionalProperties": false }, "handler": "state", "grants": ["state.read"], "effect": "read", "purpose": "state" },
+      { "id": "increment", "input": { "type": "object", "properties": { "expectedRevision": { "type": "integer", "minimum": 0 } }, "required": ["expectedRevision"], "additionalProperties": false }, "handler": "increment", "grants": ["state.read", "state.write"], "effect": "write", "purpose": "configure" }
+    ],
+    "views": [{ "id": "counter", "title": "Counter example", "kind": "sandbox", "slot": "settings", "path": "view.html", "actions": ["state", "increment"] }]
+  }
+}

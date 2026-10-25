@@ -1,0 +1,72 @@
+{
+  "format": 1,
+  "id": "ada.theme-paper",
+  "name": "Paper",
+  "description": "A warm light appearance with forest-green actions.",
+  "version": "1.1.0",
+  "license": "UNLICENSED",
+  "engines": {
+    "ada": ">=0.16.2 <0.17.0",
+    "pluginApi": "^1.0.0"
+  },
+  "hosts": [
+    "desktop"
+  ],
+  "dependencies": {},
+  "conflicts": [],
+  "after": [],
+  "grants": [],
+  "files": [],
+  "contributes": {
+    "themes": [
+      {
+        "id": "paper",
+        "name": "Paper",
+        "appearance": "light",
+        "tokens": {
+          "--text-primary": "#202720",
+          "--text-body": "#2c342d",
+          "--text-muted": "#565f54",
+          "--text-placeholder": "#687263",
+          "--text-warning": "#77501d",
+          "--text-danger": "#a22e30",
+          "--text-success": "#286342",
+          "--text-dreaming": "#6b3b82",
+          "--surface-dreaming": "#eee2f3",
+          "--border-dreaming": "#b99ac7",
+          "--text-action": "#ffffff",
+          "--text-link": "#356445",
+          "--focus-ring": "#426b45",
+          "--caret": "#305d3c",
+          "--surface-opaque": "#f7f6f1",
+          "--surface-glass": "#f7f6f1f5",
+          "--surface-composer": "#f7f6f1",
+          "--surface-row": "#f7f6f1",
+          "--surface-row-hover": "#eaece4",
+          "--surface-ada-message": "#eeefe8",
+          "--surface-panel": "#f7f6f1",
+          "--surface-section": "#eeefe8",
+          "--surface-menu": "#f7f6f1",
+          "--border-section": "#d8ddd0",
+          "--border-menu": "#bec7b8",
+          "--surface-field": "#fcfcf8",
+          "--selection-fill": "#70925b22",
+          "--selection-border": "#4b734955",
+          "--border-divider": "#d8ddd0",
+          "--scroll-thumb": "#b2bba9",
+          "--scroll-thumb-composer": "#b2bba9",
+          "--control-foreground": "#535f4e",
+          "--control-hover": "#e3e8dc",
+          "--control-hover-foreground": "#273526",
+          "--control-disabled": "#dee2d980",
+          "--control-disabled-foreground": "#747e6e",
+          "--control-disabled-border": "#d4dacd",
+          "--action-fill": "#456944",
+          "--action-hover": "#365934",
+          "--action-border": "#294c2c"
+        }
+      }
+    ]
+  },
+  "author": "zF4ke"
+}

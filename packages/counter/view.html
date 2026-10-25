@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Counter example</title>
+<style>
+  body { margin: 0; padding: 16px; font: 14px/1.5 var(--font-ui, system-ui); color: var(--text-body, #ddd); background: var(--surface-panel, #222); }
+  button { font: inherit; padding: 6px 12px; color: inherit; background: var(--surface-field, #333); border: 1px solid var(--border-divider, #555); border-radius: var(--radius-control, 6px); }
+  button:focus-visible { outline: 2px solid var(--focus-ring, #b1a1ff); outline-offset: 2px; }
+  #error { color: var(--text-danger, #ff9898); }
+</style>
+<p>Counter: <output id="count">Loading</output></p>
+<button id="increment" disabled>Add one</button>
+<button id="refresh" disabled>Refresh</button>
+<p id="error" role="status"></p>
+<script>
+  let binding, revision = 0, initialized = false;
+  const waiting = new Map(), count = document.querySelector('#count'), error = document.querySelector('#error');
+  function envelope(type) { return { type, protocol: 1, packageId: 'example.counter', digest: binding.package.digest, viewId: 'counter' }; }
+  function action(id, args = {}, expectedStateRevision) {
+    const requestId = crypto.randomUUID();
+    return new Promise((resolve, reject) => {
+      waiting.set(requestId, { resolve, reject });
+      parent.postMessage({ ...envelope('ada:plugin-action'), id: requestId, generation: binding.generation, action: id, arguments: args, ...(expectedStateRevision === undefined ? {} : { expectedStateRevision }) }, '*');
+    });
+  }
+  async function update(id, args, expected) {
+    error.textContent = '';
+    try { const state = await action(id, args, expected); revision = state.revision; count.textContent = String(state.count); }
+    catch (failure) { error.textContent = failure.message; }
+  }
+  window.addEventListener('message', event => {
+    if (event.source !== parent || event.data?.protocol !== 1 || event.data.viewId !== 'counter') return;
+    const message = event.data;
+    if (message.type === 'ada:plugin-init' || message.type === 'ada:plugin-state') {
+      if (message.package?.id !== 'example.counter') return;
+      binding = message;
+      if (message.type === 'ada:plugin-init') parent.postMessage(envelope('ada:plugin-ready'), '*');
+      if (message.theme) for (const [name, value] of Object.entries(message.theme)) document.documentElement.style.setProperty(name, value);
+      document.querySelector('#increment').disabled = !!message.busy;
+      document.querySelector('#refresh').disabled = !!message.busy;
+      if (!initialized) { initialized = true; void update('state', {}); }
+    } else if (message.type === 'ada:plugin-receipt') {
+      const request = waiting.get(message.id); if (!request) return; waiting.delete(message.id);
+      if (message.error) request.reject(new Error(message.error)); else request.resolve(message.value);
+    }
+  });
+  document.querySelector('#increment').addEventListener('click', () => void update('increment', { expectedRevision: revision }, revision));
+  document.querySelector('#refresh').addEventListener('click', () => void update('state', {}));
+</script>
+</html>

@@ -1,0 +1,7 @@
+{
+  "name": "ada-plugins",
+  "private": true,
+  "type": "module",
+  "scripts": { "build": "node scripts/build.mjs", "test": "node --experimental-transform-types scripts/verify.mjs" },
+  "engines": { "node": ">=24" }
+}

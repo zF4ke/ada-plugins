@@ -1,0 +1,42 @@
+{
+  "format": 1,
+  "id": "ada.theme-orchid",
+  "name": "Orchid",
+  "description": "A violet accent for Ada's dark appearance.",
+  "version": "1.1.0",
+  "license": "UNLICENSED",
+  "engines": {
+    "ada": ">=0.16.2 <0.17.0",
+    "pluginApi": "^1.0.0"
+  },
+  "hosts": [
+    "desktop"
+  ],
+  "dependencies": {},
+  "conflicts": [],
+  "after": [],
+  "grants": [],
+  "files": [],
+  "contributes": {
+    "themes": [
+      {
+        "id": "orchid",
+        "name": "Orchid",
+        "appearance": "dark",
+        "tokens": {
+          "--action-fill": "#d9c3f2",
+          "--action-hover": "#e8d8fa",
+          "--text-action": "#281b35",
+          "--text-link": "#dfc5fa",
+          "--focus-ring": "#d3b5f0",
+          "--caret": "#e8d7fa",
+          "--selection-fill": "#bd94ee20",
+          "--selection-border": "#d2b3f345",
+          "--text-success": "#a9d6c1",
+          "--text-warning": "#e3cc9c"
+        }
+      }
+    ]
+  },
+  "author": "zF4ke"
+}
