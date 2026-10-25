@@ -12,7 +12,7 @@
 | [Paper](packages/releases/ada.theme-paper-1.1.0.ada-plugin) | Warm light theme | Desktop app |
 | [Counter](packages/releases/example.counter-1.1.0.ada-plugin) | Working example | Ada server |
 
-Use experimental Ada 0.16.4 for catalog installation. Google and Discord also ship with Ada.
+Use experimental Ada 0.16.5 for catalog installation. Google and Discord also ship with Ada.
 
 ## Install in Ada
 
