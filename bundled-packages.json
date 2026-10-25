@@ -1,0 +1,20 @@
+{
+  "format": 1,
+  "source": "https://github.com/zF4ke/ada",
+  "commit": "d674c04505bf8328ca88750738b1eeb962801ba7",
+  "adaVersion": "0.16.2",
+  "packages": [
+    {
+      "directory": "discord",
+      "id": "ada.discord",
+      "version": "1.1.0",
+      "manifestSha256": "1b5fa350f17d0527de4ffb20b8a618cc7036d512b5078cadbcdae2fb10dcbcf6"
+    },
+    {
+      "directory": "google-calendar",
+      "id": "ada.google-calendar",
+      "version": "1.1.0",
+      "manifestSha256": "6addaa8900f32f258400a396ffc6cac9fea4468656e74f2bf13abc18c2e57000"
+    }
+  ]
+}

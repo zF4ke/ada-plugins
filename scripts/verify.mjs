@@ -7,6 +7,8 @@ import assert from 'node:assert/strict';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const ada = resolve(process.env.ADA_SOURCE ?? join(root, '../ada'));
 const { PluginPackages } = await import(pathToFileURL(join(ada, 'packages/plugins/src/acquisition.ts')).href);
+const { canonical, digest } = await import(pathToFileURL(join(ada, 'packages/plugins/src/identity.ts')).href);
+const provenance = JSON.parse(await readFile(join(root, 'bundled-packages.json'), 'utf8'));
 const home = await mkdtemp(join(tmpdir(), 'Ada plugin catalog verification '));
 try {
   const packages = new PluginPackages(home, { fetch: async url => {
@@ -22,6 +24,11 @@ try {
     assert.equal(checked.manifest.id, entry.id);
     assert.equal(checked.manifest.version, entry.version);
     assert.equal(checked.integrity, 'verified');
+    const bundled = provenance.packages.find(item => item.id === entry.id);
+    if (bundled) {
+      assert.equal(checked.manifest.version, bundled.version);
+      assert.equal(digest(canonical(checked.manifest)), bundled.manifestSha256);
+    }
   }
   console.log(`Verified catalog acquisition and installed inventories for ${catalog.packages.length} packages.`);
 } finally {

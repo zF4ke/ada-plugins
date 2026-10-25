@@ -17,13 +17,16 @@ for (const name of (await readdir(join(root, 'packages'))).sort()) {
       if (stat.isSymbolicLink()) throw new Error('Package links are not supported.');
       if (stat.isDirectory()) { await walk(path); continue; }
       const local = relative(source, path).replaceAll('\\', '/');
-      if (local === 'ada-plugin.template.json') continue;
+      if (local === 'ada-plugin.template.json' || local === 'ada-plugin.json') continue;
       packagePath(local); files.set(local, await readFile(path));
     }
   }
   await walk(source);
-  const template = JSON.parse(await readFile(join(source, 'ada-plugin.template.json'), 'utf8'));
-  const manifest = validateManifest({ ...template, files: [...files].sort(([a], [b]) => a.localeCompare(b)).map(([path, content]) => ({ path, bytes: content.length, sha256: digest(content) })) });
+  const templateBytes = await readFile(join(source, 'ada-plugin.template.json'), 'utf8').catch(error => { if (error.code !== 'ENOENT') throw error; });
+  const manifest = templateBytes === undefined
+    ? validateManifest(JSON.parse(await readFile(join(source, 'ada-plugin.json'), 'utf8')))
+    : validateManifest({ ...JSON.parse(templateBytes), files: [...files].sort(([a], [b]) => a.localeCompare(b)).map(([path, content]) => ({ path, bytes: content.length, sha256: digest(content) })) });
+  if (manifest.files.length !== files.size || manifest.files.some(item => !files.has(item.path) || item.bytes !== files.get(item.path).length || item.sha256 !== digest(files.get(item.path)))) throw new Error(`${name} does not match its sealed inventory.`);
   const output = join(root, 'dist', name); await mkdir(output, { recursive: true });
   for (const [path] of files) { await mkdir(dirname(join(output, path)), { recursive: true }); await copyFile(join(source, path), join(output, path)); }
   await writeFile(join(output, 'ada-plugin.json'), canonical(manifest));

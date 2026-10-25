@@ -13,6 +13,26 @@
       "bytes": 7318
     },
     {
+      "id": "ada.discord",
+      "version": "1.1.0",
+      "name": "Discord",
+      "description": "Read Discord and retain selected messages or prepare saved exports.",
+      "author": "zF4ke",
+      "url": "https://raw.githubusercontent.com/zF4ke/ada-plugins/main/packages/releases/ada.discord-1.1.0.ada-plugin",
+      "sha256": "b7038131b89e0160069fd609eb53dc595edb9bacee1cf6a24522c9a62653cc54",
+      "bytes": 322239
+    },
+    {
+      "id": "ada.google-calendar",
+      "version": "1.1.0",
+      "name": "Google Calendar and Tasks",
+      "description": "Read and change Google calendars and task lists with separately granted account access.",
+      "author": "zF4ke",
+      "url": "https://raw.githubusercontent.com/zF4ke/ada-plugins/main/packages/releases/ada.google-calendar-1.1.0.ada-plugin",
+      "sha256": "7118971829aec926344adc3bb7a0913e76b359c71df2316697d63fc9cd5d6958",
+      "bytes": 248105
+    },
+    {
       "id": "ada.theme-orchid",
       "version": "1.1.0",
       "name": "Orchid",
