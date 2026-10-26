@@ -10,9 +10,12 @@
 | [Discord](packages/releases/ada.discord-1.2.0.ada-plugin) | Messages and imports | Ada server |
 | [Orchid](packages/releases/ada.theme-orchid-1.1.0.ada-plugin) | Violet dark theme | Desktop app |
 | [Paper](packages/releases/ada.theme-paper-1.1.0.ada-plugin) | Warm light theme | Desktop app |
+| [GitHub Dark](packages/releases/ada.theme-github-1.0.0.ada-plugin) | VS Code-inspired slate and blue | Desktop app |
 | [Counter](packages/releases/example.counter-1.1.0.ada-plugin) | Working example | Ada server |
 
-Use experimental Ada 0.16.8 for catalog installation. Google and Discord also ship with Ada.
+Use experimental Ada 0.16.9 for catalog installation. Google, Discord and the themes also ship with Ada.
+
+GitHub Dark adapts the palette from [GitHub's VS Code theme](https://github.com/primer/github-vscode-theme), with its MIT license included. It is an independent Ada plugin.
 
 ## Install in Ada
 

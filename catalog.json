@@ -51,6 +51,16 @@
       "url": "https://raw.githubusercontent.com/zF4ke/ada-plugins/main/packages/releases/ada.theme-paper-1.1.0.ada-plugin",
       "sha256": "26958fbcfd9bb0cb6b8cdc7b2675ef4b92f32fc5152e2bb2ff76035fa3329812",
       "bytes": 1615
+    },
+    {
+      "id": "ada.theme-github",
+      "version": "1.0.0",
+      "name": "GitHub Dark",
+      "description": "GitHub Dark Default's slate surfaces, blue accents and green actions, adapted for Ada.",
+      "author": "zF4ke",
+      "url": "https://raw.githubusercontent.com/zF4ke/ada-plugins/main/packages/releases/ada.theme-github-1.0.0.ada-plugin",
+      "sha256": "165823effdfbfa22df5479fbe8dd71887ba3dfb9e3815ae7802b3e054b72e6ad",
+      "bytes": 3223
     }
   ]
 }
