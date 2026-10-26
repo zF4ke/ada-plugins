@@ -11,9 +11,11 @@ npm run build
 npm test
 ```
 
-The build compiles `src/discord` and `src/google-calendar`, then inventories and packages all five plugins. Tests typecheck the independent integration source and verify catalog acquisition and every retained archive. They use no accounts or models.
+The build compiles `src/discord` and `src/google-calendar`, then inventories and packages the library. Tests typecheck the independent integration source and verify catalog acquisition and every retained archive. They use no accounts or models.
 
 ## Add a package
+
+For a palette theme, use `packages/github` as the example. Put colors under `contributes.themes` in `ada-plugin.template.json`. Themes use validated data and need no executable entry points or core changes. Include licenses for adapted palettes.
 
 Create `src/your-plugin` with `ada-plugin.template.json`, `build.json`, and its source and assets. `build.json` declares source entry points, for example:
 
