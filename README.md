@@ -13,7 +13,7 @@
 | [GitHub Dark](packages/releases/ada.theme-github-1.0.0.ada-plugin) | VS Code-inspired slate and blue | Desktop app |
 | [Counter](packages/releases/example.counter-1.1.0.ada-plugin) | Working example | Ada server |
 
-Use experimental Ada 0.16.9 for catalog installation. Google, Discord and the themes also ship with Ada.
+Use experimental Ada 0.16.10 for catalog installation. Google, Discord and the themes also ship with Ada.
 
 GitHub Dark adapts the palette from [GitHub's VS Code theme](https://github.com/primer/github-vscode-theme), with its MIT license included. It is an independent Ada plugin.
 
