@@ -1,0 +1,13 @@
+.calendar-settings .provider-connect { display: grid; gap: 8px; margin: 12px 0; }
+.calendar-settings .provider-connect input { width: 100%; min-width: 0; height: 36px; padding: 0 12px; background: var(--surface-field); border: 1px solid var(--border-divider); border-radius: var(--radius-control); color: var(--text-body); font: inherit; }
+.calendar-settings .provider-connect input:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.calendar-settings .provider-connect .text-button { justify-self: start; }
+.calendar-settings .provider-connect label, .calendar-settings .provider-connect input { font-size: var(--text-control-size); }
+.calendar-settings .text-button { font-size: var(--text-control-size); }
+.calendar-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.calendar-settings .provider-heading { flex-wrap: wrap; gap: 4px 12px; }
+.calendar-settings > .calendar-actions { margin: 12px 0; }
+.calendar-settings > .text-button { margin-top: 12px; }
+.calendar-services { display: grid; gap: 8px; margin: 12px 0; font-size: var(--text-control-size); }
+.calendar-services > div { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; }
+.calendar-services > div > span:last-child { color: var(--text-muted); }

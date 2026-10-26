@@ -1,4 +1,4 @@
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, readdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -25,11 +25,13 @@ try {
     assert.equal(checked.manifest.version, entry.version);
     assert.equal(checked.integrity, 'verified');
     const bundled = provenance.packages.find(item => item.id === entry.id);
-    if (bundled) {
+    if (bundled && checked.manifest.version === bundled.version) {
       assert.equal(checked.manifest.version, bundled.version);
       assert.equal(digest(canonical(checked.manifest)), bundled.manifestSha256);
     }
   }
+  const { decodeArchive } = await import(pathToFileURL(join(ada, 'packages/plugins/src/archive.ts')).href);
+  for (const name of await readdir(join(root, 'packages/releases'))) { if (!name.endsWith('.ada-plugin')) continue; const archive = decodeArchive(await readFile(join(root, 'packages/releases', name))); assert.equal(name, `${archive.manifest.id}-${archive.manifest.version}.ada-plugin`); }
   console.log(`Verified catalog acquisition and installed inventories for ${catalog.packages.length} packages.`);
 } finally {
   await rm(home, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });

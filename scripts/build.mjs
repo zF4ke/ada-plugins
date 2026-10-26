@@ -1,4 +1,4 @@
-import { readdir, readFile, writeFile, mkdir, copyFile, lstat } from 'node:fs/promises';
+import { readdir, readFile, writeFile, mkdir, copyFile, lstat, cp, rm } from 'node:fs/promises';
 import { dirname, join, resolve, relative } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -6,6 +6,18 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const ada = resolve(process.env.ADA_SOURCE ?? join(root, '../ada'));
 const load = file => import(pathToFileURL(join(ada, 'packages/plugins/src', file)).href);
 const [{ canonical, digest, packagePath }, { validateManifest }, { encodeArchive }] = await Promise.all([load('identity.ts'), load('manifest.ts'), load('archive.ts')]);
+const { compilePlugin } = await import(pathToFileURL(join(ada, 'packages/plugins/build.mjs')).href);
+for (const entry of await readdir(join(root, 'src'), { withFileTypes: true })) {
+  if (!entry.isDirectory()) continue;
+  const output = resolve(root, 'dist', 'compiled-' + entry.name);
+  if (!output.startsWith(resolve(root, 'dist') + '/'.replace('/', process.platform === 'win32' ? '\\' : '/'))) throw new Error('Invalid generated package path.');
+  await rm(output, { recursive: true, force: true });
+  await compilePlugin(join(root, 'src', entry.name), output);
+  const destination = resolve(root, 'packages', entry.name);
+  if (dirname(destination) !== resolve(root, 'packages')) throw new Error('Invalid package destination.');
+  await rm(destination, { recursive: true, force: true });
+  await cp(output, destination, { recursive: true });
+}
 const packages = [];
 await mkdir(join(root, 'packages/releases'), { recursive: true });
 for (const name of (await readdir(join(root, 'packages'))).sort()) {

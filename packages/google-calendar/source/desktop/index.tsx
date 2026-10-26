@@ -1,5 +1,5 @@
-import type { PluginBinding } from '../../../../../packages/protocol/src/plugins.ts';
-import type { CalendarState } from '../../../../../packages/protocol/src/google-calendar.ts';
+import type { PluginBinding } from '@ada/plugin-sdk/server';
+import type { CalendarState } from '../types.ts';
 import { GoogleCalendarSettings, type CalendarInput } from './settings.tsx';
 import { useCallback } from 'react';
 

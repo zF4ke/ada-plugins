@@ -1,5 +1,5 @@
-import type { PluginBinding } from '../../../../../packages/protocol/src/plugins.ts';
-import type { DiscordState } from '../../../../../packages/protocol/src/discord.ts';
+import type { PluginBinding } from '@ada/plugin-sdk/server';
+import type { DiscordState } from '../types.ts';
 import { DiscordConnection, type DiscordInput } from './settings.tsx';
 import { useCallback } from 'react';
 

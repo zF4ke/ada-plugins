@@ -2,6 +2,12 @@
   "name": "ada-plugins",
   "private": true,
   "type": "module",
-  "scripts": { "build": "node scripts/build.mjs", "test": "node --experimental-transform-types scripts/verify.mjs" },
-  "engines": { "node": ">=24" }
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "npm run typecheck && node --experimental-transform-types scripts/verify.mjs",
+    "typecheck": "node scripts/typecheck.mjs"
+  },
+  "engines": {
+    "node": ">=24"
+  }
 }

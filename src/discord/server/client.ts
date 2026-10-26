@@ -3,11 +3,11 @@ import { access, mkdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { join } from 'node:path';
 import { setTimeout as pause } from 'node:timers/promises';
-import { protect } from '../../../../../../packages/security/src/dpapi.ts';
-import { saveProtectedJson, type Protection } from '../../../../../../packages/security/src/protected-json.ts';
-import type { DiscordUser, DiscordGuild, DiscordChannel, DiscordMessage, DiscordRelationship, DiscordReadRequest, DiscordReadResult, DiscordState } from '../../../../../../packages/protocol/src/discord.ts';
-import type { Persistence } from '../../../persistence.ts';
-import type { CredentialStorage } from '../support.ts';
+import { protect } from '@ada/plugin-sdk/security';
+import { saveProtectedJson, type Protection } from '@ada/plugin-sdk/security';
+import type { DiscordUser, DiscordGuild, DiscordChannel, DiscordMessage, DiscordRelationship, DiscordReadRequest, DiscordReadResult, DiscordState } from '../types.ts';
+import type { DiscordImports } from '../types.ts';
+import type { CredentialStorage } from '@ada/plugin-sdk/server';
 
 export class DiscordError extends Error {
   constructor(readonly code: 'invalid_input' | 'not_connected' | 'credentials_unavailable' | 'access_denied' | 'not_found' | 'rate_limited' | 'unavailable' | 'invalid_response' | 'cancelled', message: string) { super(message); }
@@ -307,7 +307,7 @@ export class DiscordConnection {
       return redact(output, saved.token);
     } catch (error) { throw this.safeError(error, signal); }
   }
-  async capture(request: { channelId: string; messageIds: string[] }, persistence: Pick<Persistence, 'knowledge'>, signal: AbortSignal, authorizeResume: () => Promise<boolean> = async () => true) {
+  async capture(request: { channelId: string; messageIds: string[] }, persistence: DiscordImports, signal: AbortSignal, authorizeResume: () => Promise<boolean> = async () => true) {
     if (!request || !id(request.channelId) || !Array.isArray(request.messageIds) || !request.messageIds.length || request.messageIds.length > 25 || request.messageIds.some(value => !id(value)) || new Set(request.messageIds).size !== request.messageIds.length || Object.keys(request).some(key => !['channelId', 'messageIds'].includes(key))) invalid();
     const captured: { messageId: string; recordId: string; revisionId: string }[] = [];
     await this.load(); const generation = this.generation, combined = AbortSignal.any([signal, this.session.signal]);

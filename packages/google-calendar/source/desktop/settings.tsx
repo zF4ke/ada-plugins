@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import type { CalendarState } from '../../../../../packages/protocol/src/google-calendar.ts';
-import { Dialog } from '../../renderer/design-system/dialog.tsx';
-import { InlineNotice, TextButton } from '../../renderer/design-system/components.tsx';
-import { BrandIcon } from '../../renderer/design-system/brand-icon.tsx';
+import type { CalendarState } from '../types.ts';
+import { Dialog } from '@ada/plugin-sdk/ui';
+import { InlineNotice, TextButton, openExternalLink } from '@ada/plugin-sdk/ui';
+import brand from '../assets/brand.svg';
 import './settings.css';
 
 export type CalendarInput = { action: 'configure' | 'authorize' | 'disconnect' | 'check'; clientId?: string; clientSecret?: string; access?: 'read-only' | 'read-write' };
@@ -21,7 +21,7 @@ export function GoogleCalendarSettings({ connection }: { connection(input?: Cale
     finally { setBusy(false); setChecking(false); }
   }
   return <section className="provider-connection calendar-settings" aria-label="Google Calendar connection">
-    <div className="provider-heading"><h4 className="settings-section-title"><BrandIcon brand="google" compact />Google Calendar and Tasks</h4><span role="status">{checking ? 'Checking access' : state?.authorizing ? 'Waiting for Google' : state?.connected ? state.access === 'blocked' ? 'Read access blocked' : state.access === 'ready' ? state.tasks && state.tasks.access !== 'ready' ? 'Calendar connected' : 'Connected' : 'Signed in, access not checked' : state ? 'Not connected' : error ? 'Unavailable' : 'Loading'}</span></div>
+    <div className="provider-heading"><h4 className="settings-section-title"><span className="brand-icon brand-icon-compact" aria-hidden="true"><img src={brand} alt="" draggable={false} /></span>Google Calendar and Tasks</h4><span role="status">{checking ? 'Checking access' : state?.authorizing ? 'Waiting for Google' : state?.connected ? state.access === 'blocked' ? 'Read access blocked' : state.access === 'ready' ? state.tasks && state.tasks.access !== 'ready' ? 'Calendar connected' : 'Connected' : 'Signed in, access not checked' : state ? 'Not connected' : error ? 'Unavailable' : 'Loading'}</span></div>
     <p className="setting-detail">Find events and to-dos. Allow changes to schedule events, edit tasks and mark them complete when you ask.</p>
     {state?.connected && state.tasks && <div className="calendar-services">
       <div><span>Calendar events</span><span>{state.access === 'ready' ? state.permissions?.calendar === 'read-write' ? 'Read and write' : 'Read-only' : state.access === 'blocked' ? 'Blocked' : 'Not checked'}</span></div>
@@ -37,8 +37,8 @@ export function GoogleCalendarSettings({ connection }: { connection(input?: Cale
     {setup && <Dialog title="Google Calendar and Tasks setup" onClose={() => setSetup(false)}><div className="calendar-settings">
       <p className="setting-detail">Create a Desktop app OAuth client in Google Cloud, then enter its credentials below. Enable both APIs in that same project. Add your account as a test user if the app is in testing, and sign in on the Ada server PC.</p>
       <div className="calendar-actions">
-        <TextButton onClick={() => void window.ada.openExternalLink(state?.apiSetup?.calendar ?? 'https://console.cloud.google.com/apis/library/calendar-json.googleapis.com')}>Enable Calendar API</TextButton>
-        <TextButton onClick={() => void window.ada.openExternalLink(state?.apiSetup?.tasks ?? 'https://console.cloud.google.com/apis/library/tasks.googleapis.com')}>Enable Tasks API</TextButton>
+        <TextButton onClick={() => void openExternalLink(state?.apiSetup?.calendar ?? 'https://console.cloud.google.com/apis/library/calendar-json.googleapis.com')}>Enable Calendar API</TextButton>
+        <TextButton onClick={() => void openExternalLink(state?.apiSetup?.tasks ?? 'https://console.cloud.google.com/apis/library/tasks.googleapis.com')}>Enable Tasks API</TextButton>
       </div>
       <p className="setting-detail">These buttons open Google Cloud. Choose Enable there, then return and check access.</p>
       <form className="provider-connect" onSubmit={event => { event.preventDefault(); void act({ action: 'configure', clientId, clientSecret }); }}>
@@ -50,8 +50,8 @@ export function GoogleCalendarSettings({ connection }: { connection(input?: Cale
       {error && <InlineNotice tone="warning">{error}</InlineNotice>}
     </div></Dialog>}
     {!setup && (error || state?.error) && <InlineNotice tone="warning">{error || state?.error}</InlineNotice>}
-    {!setup && state?.setupUrl && <TextButton onClick={() => void window.ada.openExternalLink(state.setupUrl!)}>Enable Calendar API</TextButton>}
+    {!setup && state?.setupUrl && <TextButton onClick={() => void openExternalLink(state.setupUrl!)}>Enable Calendar API</TextButton>}
     {!setup && state?.tasks?.error && <InlineNotice tone="warning">{state.tasks.error}</InlineNotice>}
-    {!setup && state?.tasks?.setupUrl && <TextButton onClick={() => void window.ada.openExternalLink(state.tasks!.setupUrl!)}>Enable Tasks API</TextButton>}
+    {!setup && state?.tasks?.setupUrl && <TextButton onClick={() => void openExternalLink(state.tasks!.setupUrl!)}>Enable Tasks API</TextButton>}
   </section>;
 }

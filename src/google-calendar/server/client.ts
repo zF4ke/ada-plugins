@@ -2,10 +2,10 @@ import { createServer, type Server } from 'node:http';
 import { randomBytes, createHash } from 'node:crypto';
 import { readFile, writeFile, rename, rm } from 'node:fs/promises';
 import { join } from 'node:path';
-import { protect } from '../../../models/credentials.ts';
-import type { CalendarState } from '../../../../../../packages/protocol/src/google-calendar.ts';
+import { protect } from '@ada/plugin-sdk/security';
+import type { CalendarState } from '../types.ts';
 import { googleWritePlan, googleWriteMatches, type GoogleWriteKind } from './write.ts';
-import type { CredentialStorage } from '../support.ts';
+import type { CredentialStorage } from '@ada/plugin-sdk/server';
 
 export const calendarScopes = ['https://www.googleapis.com/auth/calendar.calendarlist.readonly', 'https://www.googleapis.com/auth/calendar.events.readonly'];
 export const tasksReadScope = 'https://www.googleapis.com/auth/tasks.readonly';
@@ -17,7 +17,7 @@ const allowedScopes = [...googleReadScopes, ...googleWriteScopes];
 export type GoogleRead = 'calendars' | 'events' | 'task-lists' | 'tasks';
 const timestamp = (value: unknown): value is string => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$/.test(value) && Number.isFinite(Date.parse(value));
 type Saved = { clientId: string; clientSecret: string; access?: string; refresh?: string; expires?: number; scopes?: string[] };
-export type { CalendarState } from '../../../../../../packages/protocol/src/google-calendar.ts';
+export type { CalendarState } from '../types.ts';
 export class CalendarError extends Error {
   constructor(message: string, readonly code = 'calendar_unavailable', readonly retryable = false, readonly setupUrl?: string) { super(message); }
 }

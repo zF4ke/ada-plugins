@@ -1,5 +1,7 @@
 * text=auto eol=lf
 *.ada-plugin -text
+# Source retained inside immutable packages must also survive checkout byte-for-byte.
+src/** -text whitespace=cr-at-eol,-blank-at-eof
 # Retain the checked packages' exact inventoried bytes.
 packages/discord/** -text whitespace=cr-at-eol,-blank-at-eof
 packages/google-calendar/** -text whitespace=cr-at-eol,-blank-at-eof

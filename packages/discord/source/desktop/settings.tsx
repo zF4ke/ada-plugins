@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
-import type { DiscordState } from '../../../../../packages/protocol/src/discord.ts';
-import { InlineNotice, TextButton } from '../../renderer/design-system/components.tsx';
-import { Dialog } from '../../renderer/design-system/dialog.tsx';
-import { ConnectionStatus } from '../../renderer/connection-status.tsx';
-import { BrandIcon } from '../../renderer/design-system/brand-icon.tsx';
-import '../google-calendar/settings.css';
+import type { DiscordState } from '../types.ts';
+import { InlineNotice, TextButton } from '@ada/plugin-sdk/ui';
+import { Dialog } from '@ada/plugin-sdk/ui';
+import { ConnectionStatus } from '@ada/plugin-sdk/ui';
+import brand from '../assets/brand.svg';
+import './settings.css';
 
 export type DiscordInput = { action: 'connect'; token: string } | { action: 'disconnect' };
 
@@ -35,7 +35,7 @@ export function DiscordConnection({ connection }: { connection(input?: DiscordIn
     return () => { mounted.current = false; request.current++; if (token.current) token.current.value = ''; };
   }, []);
   return <section className="provider-connection calendar-settings" aria-label="Discord connection">
-    <div className="provider-heading"><h4 className="settings-section-title"><BrandIcon brand="discord" compact />Discord</h4>{pending ? <span role="status">{pending === 'connect' ? 'Connecting...' : pending === 'disconnect' ? 'Disconnecting...' : 'Loading'}</span> : state ? <ConnectionStatus connected={state.connected} /> : <span role="status">Unavailable</span>}</div>
+    <div className="provider-heading"><h4 className="settings-section-title"><span className="brand-icon brand-icon-compact" aria-hidden="true"><img src={brand} alt="" draggable={false} /></span>Discord</h4>{pending ? <span role="status">{pending === 'connect' ? 'Connecting...' : pending === 'disconnect' ? 'Disconnecting...' : 'Loading'}</span> : state ? <ConnectionStatus connected={state.connected} /> : <span role="status">Unavailable</span>}</div>
     <p className="setting-detail">Read-only access to DMs, guilds, channels and friends. Ada cannot send messages or change your account.</p>
     {state?.connected && state.account && <p className="setting-detail">Connected as {state.account.displayName || state.account.username}.</p>}
     <p className="setting-detail">Discord does not support automation of normal user accounts. Connecting may put your account at risk.</p>

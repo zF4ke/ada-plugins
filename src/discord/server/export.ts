@@ -1,6 +1,6 @@
 import { JSONParser, TokenType } from '@streamparser/json';
 import { dirname, relative, resolve, isAbsolute } from 'node:path';
-import type { PluginWorkerContext } from '../../../../../../packages/protocol/src/plugins.ts';
+import type { PluginWorkerContext } from '@ada/plugin-sdk/server';
 export type ExportReader = { read(buffer: Buffer, offset: number, length: number, position: number): Promise<{ bytesRead: number }> };
 export type ExportWorkspace = { root: string; path(path: string): Promise<string>; isFile(path: string): Promise<boolean> };
 
