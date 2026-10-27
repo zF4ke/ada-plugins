@@ -13,10 +13,6 @@
 | [GitHub Dark](packages/releases/ada.theme-github-1.0.0.ada-plugin) | VS Code-inspired slate and blue | Desktop app |
 | [Counter](packages/releases/example.counter-1.1.0.ada-plugin) | Working example | Ada server |
 
-Catalog installation needs Ada 0.16.10 or later. [Download the stable release](https://github.com/zF4ke/ada/releases/latest). Google, Discord and the themes also ship with Ada.
-
-GitHub Dark adapts the palette from [GitHub's VS Code theme](https://github.com/primer/github-vscode-theme), with its MIT license included. It is an independent Ada plugin.
-
 ## Install in Ada
 
 Open **Settings > Plugins > Browse**, paste this catalog URL and choose **Browse catalog**.
