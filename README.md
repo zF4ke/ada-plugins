@@ -6,7 +6,7 @@
 
 | Plugin | What it adds | Runs in |
 | --- | --- | --- |
-| [Google Calendar](packages/releases/ada.google-calendar-1.2.0.ada-plugin) | Events and Tasks | Ada server |
+| [Google Calendar](packages/releases/ada.google-calendar-1.2.1.ada-plugin) | Events and Tasks | Ada server |
 | [Discord](packages/releases/ada.discord-1.2.0.ada-plugin) | Messages and imports | Ada server |
 | [Orchid](packages/releases/ada.theme-orchid-1.1.0.ada-plugin) | Violet dark theme | Desktop app |
 | [Paper](packages/releases/ada.theme-paper-1.1.0.ada-plugin) | Warm light theme | Desktop app |

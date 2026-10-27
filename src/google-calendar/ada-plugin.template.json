@@ -3,7 +3,7 @@
   "id": "ada.google-calendar",
   "name": "Google Calendar and Tasks",
   "description": "Read and change Google calendars and task lists with separately granted account access.",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "license": "UNLICENSED",
   "engines": {
     "ada": ">=0.16.7",

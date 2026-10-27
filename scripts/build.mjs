@@ -7,8 +7,11 @@ const ada = resolve(process.env.ADA_SOURCE ?? join(root, '../ada'));
 const load = file => import(pathToFileURL(join(ada, 'packages/plugins/src', file)).href);
 const [{ canonical, digest, packagePath }, { validateManifest }, { encodeArchive }] = await Promise.all([load('identity.ts'), load('manifest.ts'), load('archive.ts')]);
 const { compilePlugin } = await import(pathToFileURL(join(ada, 'packages/plugins/build.mjs')).href);
-for (const entry of await readdir(join(root, 'src'), { withFileTypes: true })) {
+const sources = await readdir(join(root, 'src'), { withFileTypes: true }), selected = new Set(process.argv.slice(2));
+for (const name of selected) if (!sources.some(entry => entry.isDirectory() && entry.name === name)) throw new Error(`Unknown plugin source: ${name}`);
+for (const entry of sources) {
   if (!entry.isDirectory()) continue;
+  if (selected.size && !selected.has(entry.name)) continue;
   const output = resolve(root, 'dist', 'compiled-' + entry.name);
   if (!output.startsWith(resolve(root, 'dist') + '/'.replace('/', process.platform === 'win32' ? '\\' : '/'))) throw new Error('Invalid generated package path.');
   await rm(output, { recursive: true, force: true });

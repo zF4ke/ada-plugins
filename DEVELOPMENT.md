@@ -13,6 +13,8 @@ npm test
 
 The build compiles `src/discord` and `src/google-calendar`, then inventories and packages the library. Tests typecheck the independent integration source and verify catalog acquisition and every retained archive. They use no accounts or models.
 
+To change one integration, run `npm run build -- google-calendar` or `npm run build -- discord`. This recompiles the named source and validates the whole catalog without rebuilding unchanged packages against a different SDK.
+
 ## Add a package
 
 For a palette theme, use `packages/github` as the example. Put colors under `contributes.themes` in `ada-plugin.template.json`. Themes use validated data and need no executable entry points or core changes. Include licenses for adapted palettes.
