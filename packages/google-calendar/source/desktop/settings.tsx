@@ -41,7 +41,7 @@ export function GoogleCalendarSettings({ connection }: { connection(input?: Cale
       {state?.configured && <TextButton icon="edit" disabled={busy || state.authorizing} onClick={() => void act({ action: 'authorize', access: state.permissions?.calendar === 'read-write' && state.permissions?.tasks === 'read-write' ? 'read-only' : 'read-write' })}>{state.permissions?.calendar === 'read-write' && state.permissions?.tasks === 'read-write' ? 'Use read-only access' : 'Allow changes'}</TextButton>}
       {state?.configured && <TextButton disabled={busy} onClick={() => void act({ action: 'disconnect' })}>Disconnect</TextButton>}
     </div>
-    {setup && <Dialog title="Google Calendar and Tasks setup" onClose={() => setSetup(false)}><div className="calendar-settings calendar-setup">
+    {setup && <Dialog size="wide" title="Google Calendar and Tasks setup" onClose={() => setSetup(false)}><div className="calendar-settings calendar-setup">
       <p>Use your own Google Cloud project. The buttons below open Google Cloud; complete each change there, then return to Ada.</p>
       {state?.configured && <p className="calendar-returning">Already have a client? Keep it. To leave Testing, follow step 2, then reconnect in step 4. You do not need to enter your credentials again.</p>}
       <ol className="calendar-setup-steps">

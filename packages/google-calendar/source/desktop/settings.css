@@ -11,7 +11,7 @@
 .calendar-services { display: grid; gap: 8px; margin: 12px 0; font-size: var(--text-control-size); }
 .calendar-services > div { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; }
 .calendar-services > div > span:last-child { color: var(--text-muted); }
-.calendar-setup { --text-status-size: var(--text-body-size, 14px); display: grid; gap: 20px; overflow-y: auto; min-height: 0; max-height: calc(100vh - 160px); padding-right: 4px; font-weight: var(--font-weight-reading, 400); }
+.calendar-setup { --text-status-size: var(--text-body-size, 14px); display: grid; gap: 20px; overflow-y: auto; min-height: 0; max-height: calc(100vh - 140px); padding-right: 4px; font-weight: var(--font-weight-reading, 400); }
 .calendar-setup p { font-size: var(--text-body-size, 14px); line-height: 1.55; }
 .calendar-setup-steps { display: grid; gap: 24px; margin: 0; padding-left: 24px; }
 .calendar-setup-steps > li { padding-left: 4px; }
