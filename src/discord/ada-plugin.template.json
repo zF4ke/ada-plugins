@@ -3,7 +3,7 @@
   "id": "ada.discord",
   "name": "Discord",
   "description": "Read Discord and retain selected messages or prepare saved exports.",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "license": "UNLICENSED",
   "engines": {
     "ada": ">=0.16.7",

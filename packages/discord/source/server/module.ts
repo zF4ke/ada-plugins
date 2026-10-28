@@ -4,6 +4,7 @@ import type { DiscordImports } from '../types.ts';
 import { DiscordConnection } from './client.ts';
 import { InvocationServices, failure, success } from '@ada/plugin-sdk/server';
 import { prepareBrokeredDiscordExport } from './export.ts';
+import { compactDiscordRead } from './presentation.ts';
 
 const services = new InvocationServices();
 const connection = new DiscordConnection('', { fetcher: services.fetch, storage: services.credentials() });
@@ -20,7 +21,7 @@ export default {
   deactivate() { connection.close(); },
   handlers: {
     state: run(async () => connection.state()), connect: run(async (input, context) => connection.connect(input.token, context.signal)), disconnect: run(async () => connection.disconnect()),
-    discord_read: run(async (input, context) => connection.execute(input as DiscordReadRequest, context.signal)),
+    discord_read: run(async (input, context) => compactDiscordRead(await connection.execute(input as DiscordReadRequest, context.signal))),
     capture_discord_messages: run(async (input, context) => connection.capture(input as { channelId: string; messageIds: string[] }, imports, context.signal, async () => !context.signal.aborted)),
     prepare_discord_import_prepare: async (input, context) => services.run(context, async () => {
       const args = input as { path: string; output: string };

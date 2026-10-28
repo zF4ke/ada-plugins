@@ -14,13 +14,13 @@
     },
     {
       "id": "ada.discord",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "name": "Discord",
       "description": "Read Discord and retain selected messages or prepare saved exports.",
       "author": "zF4ke",
-      "url": "https://raw.githubusercontent.com/zF4ke/ada-plugins/main/packages/releases/ada.discord-1.2.0.ada-plugin",
-      "sha256": "aab55681070040ee219bb07d2b7fc6b753e09ad4fefda829bad681104c713813",
-      "bytes": 220540
+      "url": "https://raw.githubusercontent.com/zF4ke/ada-plugins/main/packages/releases/ada.discord-1.2.1.ada-plugin",
+      "sha256": "8788e35ac3f455e500831e15ab9f99cd4b285321ddc92f0f1311f992eb3dac25",
+      "bytes": 228655
     },
     {
       "id": "ada.theme-github",

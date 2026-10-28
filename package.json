@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "test": "npm run typecheck && node --experimental-transform-types scripts/verify.mjs",
+    "test": "npm run typecheck && node --experimental-transform-types --test scripts/discord-presentation.test.mjs scripts/discord-handler.test.mjs && node --experimental-transform-types scripts/verify.mjs",
     "typecheck": "node scripts/typecheck.mjs"
   },
   "engines": {
