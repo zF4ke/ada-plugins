@@ -3,7 +3,7 @@
   "id": "ada.google-calendar",
   "name": "Google Calendar and Tasks",
   "description": "Read and change Google calendars and task lists with separately granted account access.",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "license": "UNLICENSED",
   "engines": {
     "ada": ">=0.16.18",
@@ -111,7 +111,7 @@
         "aliases": [
           "calendar_write_event"
         ],
-        "description": "Create, update or delete a Google Calendar event only for an owner-requested change. Requires Calendar write permission. Read the calendar first. Updates and deletes require itemId and etag from the last read. For timed events provide both RFC3339 start/end and IANA timeZone; for all-day events use YYYY-MM-DD start/end with exclusive end and omit timeZone. Set meet: true to add a Google Meet link; the result includes meetLink. Cannot add attendees or recurrence. Reports a verified read-back or an uncertain change that must be inspected before retrying. Call alone.",
+        "description": "Create, update or delete a Google Calendar event only for an owner-requested change. Requires Calendar write permission. Read the calendar first. Updates and deletes require itemId and etag from the last read. For timed events provide both RFC3339 start/end and IANA timeZone; for all-day events use YYYY-MM-DD start/end with exclusive end and omit timeZone. Set meet: true to add a Google Meet link (the result includes meetLink) or meet: false on update to remove it. Cannot add attendees or recurrence. Reports a verified read-back or an uncertain change that must be inspected before retrying. Call alone.",
         "input": {
           "type": "object",
           "properties": {

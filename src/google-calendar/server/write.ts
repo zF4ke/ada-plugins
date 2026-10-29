@@ -43,7 +43,11 @@ export function googleWritePlan(kind: GoogleWriteKind, args: Record<string, unkn
   if (event && args.meet !== undefined) {
     if (typeof args.meet !== 'boolean') throw new Error('meet must be true or false.');
     if (deleting) throw new Error('Delete does not accept meet.');
-    if (args.meet) { body.conferenceData = { createRequest: { requestId: crypto.randomUUID(), conferenceSolutionKey: { type: 'hangoutsMeet' } } }; url.searchParams.set('conferenceDataVersion', '1'); }
+    // Google only applies or clears conferencing when the request declares conferenceDataVersion=1. A new event has nothing to clear.
+    if (args.meet || !creating) {
+      body.conferenceData = args.meet ? { createRequest: { requestId: crypto.randomUUID(), conferenceSolutionKey: { type: 'hangoutsMeet' } } } : null;
+      url.searchParams.set('conferenceDataVersion', '1');
+    }
   }
   if (!event && args.dueDate !== undefined) {
     if (args.dueDate !== null && !date(args.dueDate)) throw new Error('Tasks accept a scheduled YYYY-MM-DD date, without a time. Use a Calendar event for timed work.');
@@ -55,7 +59,7 @@ export function googleWritePlan(kind: GoogleWriteKind, args: Record<string, unkn
     if (!args.completed) body.completed = null;
   }
   if (creating && !body[event ? 'summary' : 'title']) throw new Error(event ? 'An event needs a summary.' : 'A task needs a title.');
-  if (!creating && !deleting && !Object.keys(body).length) throw new Error('Choose at least one field to update, or meet: true to add a Google Meet link.');
+  if (!creating && !deleting && !Object.keys(body).length) throw new Error('Choose at least one field to update, or meet: true or false to add or remove a Google Meet link.');
   if (deleting && Object.keys(body).length) throw new Error('Delete accepts only the container, item identity and ETag.');
   return { service: event ? 'calendar' : 'tasks', url, method: creating ? 'POST' : deleting ? 'DELETE' : 'PATCH', ...(deleting ? {} : { body }), ...(etag ? { etag } : {}) };
 }

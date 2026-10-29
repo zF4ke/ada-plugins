@@ -34,13 +34,13 @@
     },
     {
       "id": "ada.google-calendar",
-      "version": "1.3.0",
+      "version": "1.3.1",
       "name": "Google Calendar and Tasks",
       "description": "Read and change Google calendars and task lists with separately granted account access.",
       "author": "zF4ke",
-      "url": "https://raw.githubusercontent.com/zF4ke/ada-plugins/main/packages/releases/ada.google-calendar-1.3.0.ada-plugin",
-      "sha256": "6af9522a6b08cc46659d0e300159fec20f5eb2b8facfb95c4c7a6df06fcbbfef",
-      "bytes": 204344
+      "url": "https://raw.githubusercontent.com/zF4ke/ada-plugins/main/packages/releases/ada.google-calendar-1.3.1.ada-plugin",
+      "sha256": "d565db99f092bb5845125add93753ba2fecf70bf4d4be3098a6671dcd68bedd9",
+      "bytes": 205055
     },
     {
       "id": "ada.theme-orchid",
