@@ -213,8 +213,11 @@ export class GoogleCalendar {
       }
       if (!verify.ok) { await verify.body?.cancel(); throw new GoogleWriteUncertain(); }
       const item = await this.json(verify);
-      if (item.id !== changed.id || !googleWriteMatches(item, plan.body)) throw new GoogleWriteUncertain();
-      const result = { service: plan.service, action: args.action, verified: true, item, ...(kind === 'task' ? { scheduledDatePrecision: 'date-only' } : {}) };
+      // The Meet request is not echoed back; Google attaches a conference instead.
+      const { conferenceData: requestedConference, ...expected } = plan.body ?? {};
+      if (item.id !== changed.id || !googleWriteMatches(item, expected) || (requestedConference && !item.conferenceData && !item.hangoutLink)) throw new GoogleWriteUncertain();
+      const meetLink = typeof item.hangoutLink === 'string' ? item.hangoutLink : undefined;
+      const result = { service: plan.service, action: args.action, verified: true, item, ...(meetLink ? { meetLink } : {}), ...(kind === 'task' ? { scheduledDatePrecision: 'date-only' } : {}) };
       const secrets = [this.saved.clientSecret, this.saved.access, this.saved.refresh].filter((value): value is string => Boolean(value));
       const redact = (value: unknown): unknown => {
         if (typeof value === 'string') { for (const secret of secrets) value = (value as string).replaceAll(secret, '[redacted]'); return value; }

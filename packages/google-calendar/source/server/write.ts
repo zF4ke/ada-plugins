@@ -10,7 +10,7 @@ function text(value: unknown, label: string, max: number, empty = false): string
 /** Narrow scheduling contract. Attendees, arbitrary API fields and account mutations are not accepted. */
 export function googleWritePlan(kind: GoogleWriteKind, args: Record<string, unknown>): GoogleWritePlan {
   const event = kind === 'event';
-  const allowed = new Set(['action', 'itemId', 'etag', ...(event ? ['calendarId', 'summary', 'description', 'location', 'start', 'end', 'timeZone'] : ['taskListId', 'title', 'notes', 'dueDate', 'completed'])]);
+  const allowed = new Set(['action', 'itemId', 'etag', ...(event ? ['calendarId', 'summary', 'description', 'location', 'start', 'end', 'timeZone', 'meet'] : ['taskListId', 'title', 'notes', 'dueDate', 'completed'])]);
   if (Object.keys(args).some(key => !allowed.has(key)) || !['create', 'update', 'delete'].includes(String(args.action))) throw new Error('Invalid Google write action or fields.');
   const creating = args.action === 'create', deleting = args.action === 'delete';
   const container = text(event ? args.calendarId : args.taskListId, event ? 'calendar ID' : 'task list ID', 1000);
@@ -39,6 +39,12 @@ export function googleWritePlan(kind: GoogleWriteKind, args: Record<string, unkn
       body.start = { dateTime: args.start, timeZone: zone }; body.end = { dateTime: args.end, timeZone: zone };
     }
   }
+  // A Google Meet link is a conference request on the event. Google creates the link; Ada reports it back.
+  if (event && args.meet !== undefined) {
+    if (typeof args.meet !== 'boolean') throw new Error('meet must be true or false.');
+    if (deleting) throw new Error('Delete does not accept meet.');
+    if (args.meet) { body.conferenceData = { createRequest: { requestId: crypto.randomUUID(), conferenceSolutionKey: { type: 'hangoutsMeet' } } }; url.searchParams.set('conferenceDataVersion', '1'); }
+  }
   if (!event && args.dueDate !== undefined) {
     if (args.dueDate !== null && !date(args.dueDate)) throw new Error('Tasks accept a scheduled YYYY-MM-DD date, without a time. Use a Calendar event for timed work.');
     body.due = args.dueDate === null ? null : `${args.dueDate}T00:00:00.000Z`;
@@ -49,7 +55,7 @@ export function googleWritePlan(kind: GoogleWriteKind, args: Record<string, unkn
     if (!args.completed) body.completed = null;
   }
   if (creating && !body[event ? 'summary' : 'title']) throw new Error(event ? 'An event needs a summary.' : 'A task needs a title.');
-  if (!creating && !deleting && !Object.keys(body).length) throw new Error('Choose at least one field to update.');
+  if (!creating && !deleting && !Object.keys(body).length) throw new Error('Choose at least one field to update, or meet: true to add a Google Meet link.');
   if (deleting && Object.keys(body).length) throw new Error('Delete accepts only the container, item identity and ETag.');
   return { service: event ? 'calendar' : 'tasks', url, method: creating ? 'POST' : deleting ? 'DELETE' : 'PATCH', ...(deleting ? {} : { body }), ...(etag ? { etag } : {}) };
 }

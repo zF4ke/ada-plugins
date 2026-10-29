@@ -23,7 +23,13 @@ const handlers: PluginModule['handlers'] = {
   recover_read: async () => ({ outcome: 'failed', released: true, value: { error: 'The Google read was interrupted. Read again if needed. No request was replayed.' } }),
   recover_write: async () => ({ outcome: 'failed', released: true, value: { error: 'This Google change was interrupted. It may already have happened. Read the destination before retrying; no request was replayed.', code: 'write_uncertain', retryable: false, effectMayHaveOccurred: true, goalVerified: false, requiresInspection: true } }),
 };
-for (const [name, kind] of Object.entries(reads)) handlers[name] = run(async (input, context) => calendar.read(kind, input, context.signal));
+// The calendar list also reports what the connection may change, so a task never has to guess write access.
+for (const [name, kind] of Object.entries(reads)) handlers[name] = run(async (input, context) => {
+  const value = await calendar.read(kind, input, context.signal);
+  if (kind !== 'calendars') return value;
+  const { permissions } = await calendar.state() as { permissions?: { calendar: string; tasks: string } };
+  return { ...(value as object), connectionPermissions: permissions ?? { calendar: 'read-only', tasks: 'read-only' } };
+});
 for (const [name, kind] of Object.entries(writes)) {
   handlers[name] = run(async (input, context) => calendar.write(kind, input, context.signal, async () => !context.signal.aborted));
   handlers[name + '_prepare'] = async input => { googleWritePlan(kind, input as Record<string, unknown>); return { resources: [] }; };
